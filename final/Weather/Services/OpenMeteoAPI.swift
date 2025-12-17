@@ -3,9 +3,9 @@ import Foundation
 final class OpenMeteoAPI {
     private let session: URLSession
 
-     init(session: URLSession = .shared) {
-         self.session = session
-     }
+      init(session: URLSession = .shared) {
+          self.session = session
+      }
 
     enum APIError: Error {
         case invalidURL
