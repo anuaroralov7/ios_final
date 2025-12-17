@@ -112,14 +112,49 @@
         <!--Forecast View Controller-->
         <scene sceneID="SCENE-VC-FORECAST">
             <objects>
-                <viewController id="VC-FORECAST" customClass="ForecastViewController" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="VIEW-FORECAST">
+                <tableViewController id="VC-FORECAST" customClass="ForecastViewController" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="tableView" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="singleLine" rowHeight="60" estimatedRowHeight="60" id="TV-FORECAST">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="SAFE-FORECAST"/>
-                    </view>
-                </viewController>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CityCell" id="CELL-CITY" customClass="CityTableViewCell" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" contentMode="scaleToFill" id="CELL-CONTENT">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="SV-CITY">
+                                            <rect key="frame" x="16" y="10" width="343" height="40"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="City" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LBL-TITLE">
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" xcode11CocoaTouchSystemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Region, Country" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LBL-SUBTITLE">
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <color key="textColor" xcode11CocoaTouchSystemColor="secondaryLabelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="SV-CITY" firstAttribute="leading" secondItem="CELL-CONTENT" secondAttribute="leading" constant="16" id="CST-L"/>
+                                        <constraint firstAttribute="trailing" secondItem="SV-CITY" secondAttribute="trailing" constant="16" id="CST-R"/>
+                                        <constraint firstItem="SV-CITY" firstAttribute="top" secondItem="CELL-CONTENT" secondAttribute="top" constant="10" id="CST-T"/>
+                                        <constraint firstAttribute="bottom" secondItem="SV-CITY" secondAttribute="bottom" constant="10" id="CST-B"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="titleLabel" destination="LBL-TITLE" id="OUT-TITLE"/>
+                                    <outlet property="subtitleLabel" destination="LBL-SUBTITLE" id="OUT-SUBTITLE"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                    </tableView>
+                </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FR-VC-FORECAST" sceneMemberID="firstResponder"/>
             </objects>
         </scene>
