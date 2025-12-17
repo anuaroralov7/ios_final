@@ -58,6 +58,14 @@ final class ForecastViewController: UITableViewController, UISearchResultsUpdati
     private var isSearching: Bool {
         searchController.isActive && !((searchController.searchBar.text ?? "").isEmpty)
     }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard segue.identifier == "ShowCityDetails" else { return }
+        guard let details = segue.destination as? CityDetailsViewController else { return }
+        guard let indexPath = tableView.indexPathForSelectedRow else { return }
+        let city = isSearching ? filteredCities[indexPath.row] : allCities[indexPath.row]
+        details.city = city
+    }
 }
 
 

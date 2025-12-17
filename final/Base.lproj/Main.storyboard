@@ -148,6 +148,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <segue destination="VC-CITY-DETAILS" kind="show" identifier="ShowCityDetails" id="SEG-SHOW-DETAILS"/>
                                     <outlet property="titleLabel" destination="LBL-TITLE" id="OUT-TITLE"/>
                                     <outlet property="subtitleLabel" destination="LBL-SUBTITLE" id="OUT-SUBTITLE"/>
                                 </connections>
@@ -156,6 +157,96 @@
                     </tableView>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FR-VC-FORECAST" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+
+        <!--City Details View Controller-->
+        <scene sceneID="SCENE-VC-CITY-DETAILS">
+            <objects>
+                <viewController id="VC-CITY-DETAILS" customClass="CityDetailsViewController" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="VIEW-CITY-DETAILS">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SV-SCROLL">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="SV-ROOT">
+                                        <rect key="frame" x="16" y="16" width="343" height="483"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="City" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LBL-CITY-TITLE">
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="28"/>
+                                                <color key="textColor" xcode11CocoaTouchSystemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Region, Country" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LBL-CITY-SUBTITLE">
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <color key="textColor" xcode11CocoaTouchSystemColor="secondaryLabelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <imageView clipsSubviews="YES" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="IMG-ICON">
+                                                <rect key="frame" x="0.0" y="79" width="343" height="120"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="120" id="IMG-H"/>
+                                                </constraints>
+                                            </imageView>
+                                            <textField opaque="NO" contentMode="scaleToFill" placeholder="Custom title" textAlignment="natural" borderStyle="roundedRect" translatesAutoresizingMaskIntoConstraints="NO" id="TF-TITLE">
+                                                <rect key="frame" x="0.0" y="211" width="343" height="34"/>
+                                            </textField>
+                                            <textView clipsSubviews="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="TV-NOTE">
+                                                <rect key="frame" x="0.0" y="257" width="343" height="120"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="120" id="TV-H"/>
+                                                </constraints>
+                                                <string key="text">Note</string>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" configuration="filled" translatesAutoresizingMaskIntoConstraints="NO" id="BTN-FAV">
+                                                <rect key="frame" x="0.0" y="389" width="343" height="44"/>
+                                                <state key="normal" title="Add to Favorites"/>
+                                                <connections>
+                                                    <action selector="favoriteTapped:" destination="VC-CITY-DETAILS" eventType="touchUpInside" id="ACT-FAV"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" configuration="tinted" translatesAutoresizingMaskIntoConstraints="NO" id="BTN-SAVE">
+                                                <rect key="frame" x="0.0" y="445" width="343" height="38"/>
+                                                <state key="normal" title="Save"/>
+                                                <connections>
+                                                    <action selector="saveTapped:" destination="VC-CITY-DETAILS" eventType="touchUpInside" id="ACT-SAVE"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="SV-ROOT" firstAttribute="leading" secondItem="SV-SCROLL" secondAttribute="leading" constant="16" id="SCR-L"/>
+                                    <constraint firstAttribute="trailing" secondItem="SV-ROOT" secondAttribute="trailing" constant="16" id="SCR-R"/>
+                                    <constraint firstItem="SV-ROOT" firstAttribute="top" secondItem="SV-SCROLL" secondAttribute="top" constant="16" id="SCR-T"/>
+                                    <constraint firstAttribute="bottom" secondItem="SV-ROOT" secondAttribute="bottom" constant="16" id="SCR-B"/>
+                                    <constraint firstItem="SV-ROOT" firstAttribute="width" secondItem="SV-SCROLL" secondAttribute="width" constant="-32" id="SCR-W"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="SV-SCROLL" firstAttribute="leading" secondItem="VIEW-CITY-DETAILS" secondAttribute="leading" id="ROOT-L"/>
+                            <constraint firstAttribute="trailing" secondItem="SV-SCROLL" secondAttribute="trailing" id="ROOT-R"/>
+                            <constraint firstItem="SV-SCROLL" firstAttribute="top" secondItem="VIEW-CITY-DETAILS" secondAttribute="top" id="ROOT-T"/>
+                            <constraint firstAttribute="bottom" secondItem="SV-SCROLL" secondAttribute="bottom" id="ROOT-B"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="SAFE-CITY-DETAILS"/>
+                    </view>
+                    <connections>
+                        <outlet property="cityTitleLabel" destination="LBL-CITY-TITLE" id="OUT-CITY-TITLE"/>
+                        <outlet property="subtitleLabel" destination="LBL-CITY-SUBTITLE" id="OUT-CITY-SUBTITLE"/>
+                        <outlet property="iconImageView" destination="IMG-ICON" id="OUT-ICON"/>
+                        <outlet property="titleTextField" destination="TF-TITLE" id="OUT-TF"/>
+                        <outlet property="noteTextView" destination="TV-NOTE" id="OUT-TV"/>
+                        <outlet property="favoriteButton" destination="BTN-FAV" id="OUT-FAV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FR-VC-CITY-DETAILS" sceneMemberID="firstResponder"/>
             </objects>
         </scene>
 
