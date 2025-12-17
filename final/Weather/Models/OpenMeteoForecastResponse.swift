@@ -49,5 +49,3 @@ struct OpenMeteoForecastResponse: Codable, Sendable {
         }
     }
 }
-
-

@@ -9,5 +9,3 @@ struct City: Codable, Hashable, Identifiable {
     let latitude: Double
     let longitude: Double
 }
-
-

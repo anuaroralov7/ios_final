@@ -7,8 +7,16 @@ final class FavoritesViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Favorites"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .always
+
+        view.backgroundColor = .systemGroupedBackground
+        tableView.backgroundColor = .systemGroupedBackground
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 60
+        tableView.separatorStyle = .none
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 52, bottom: 0, right: 16)
+        navigationItem.rightBarButtonItem = editButtonItem
 
         refreshControl = UIRefreshControl()
         refreshControl?.addTarget(self, action: #selector(refreshFavorites), for: .valueChanged)
@@ -50,11 +58,16 @@ final class FavoritesViewController: UITableViewController {
 
         if let cityCell = cell as? CityTableViewCell {
             let subtitle = [city.admin1, city.country].compactMap { $0 }.filter { !$0.isEmpty }.joined(separator: ", ")
-            cityCell.configure(title: storage.displayTitle(for: city), subtitle: subtitle)
+            cityCell.configure(
+                title: storage.displayTitle(for: city),
+                subtitle: subtitle,
+                icon: UIImage(systemName: "heart.fill"),
+                iconColor: .systemPink
+            )
         } else {
             cell.textLabel?.text = storage.displayTitle(for: city)
+            cell.accessoryType = .disclosureIndicator
         }
-        cell.accessoryType = .disclosureIndicator
         return cell
     }
 

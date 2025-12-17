@@ -28,12 +28,12 @@ final class WeatherStorage {
     }
 
     func isFavorite(_ city: City) -> Bool {
-        loadFavorites().contains(city)
+        loadFavorites().contains(where: { $0.id == city.id })
     }
 
     func toggleFavorite(_ city: City) {
         var favorites = loadFavorites()
-        if let idx = favorites.firstIndex(of: city) {
+        if let idx = favorites.firstIndex(where: { $0.id == city.id }) {
             favorites.remove(at: idx)
         } else {
             favorites.append(city)

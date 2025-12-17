@@ -1,33 +1,61 @@
 import UIKit
 
-final class CityDetailsViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate {
-    @IBOutlet private weak var cityTitleLabel: UILabel!
+final class CityDetailsViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
     @IBOutlet private weak var subtitleLabel: UILabel!
     @IBOutlet private weak var iconImageView: UIImageView!
     @IBOutlet private weak var titleTextField: UITextField!
     @IBOutlet private weak var noteTextView: UITextView!
-    @IBOutlet private weak var favoriteButton: UIButton!
+    @IBOutlet private weak var forecastStackView: UIStackView!
     private var spinner: UIActivityIndicatorView?
+    private var favoriteBarButton: UIBarButtonItem?
 
     var city: City?
 
     private let api = WeatherServices.api
     private let storage = WeatherServices.storage
+    
+    private let dateFormatter: DateFormatter = {
+        let df = DateFormatter()
+        df.locale = .current
+        df.timeZone = .current
+        df.dateFormat = "yyyy-MM-dd"
+        return df
+    }()
+    
+    private let weekdayFormatter: DateFormatter = {
+        let df = DateFormatter()
+        df.locale = .current
+        df.timeZone = .current
+        df.dateFormat = "EEEE"
+        return df
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .systemGroupedBackground
+
         titleTextField.delegate = self
         noteTextView.delegate = self
-
-        iconImageView.tintColor = .systemBlue
-        let spinner = UIActivityIndicatorView(style: .medium)
-        spinner.hidesWhenStopped = true
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: spinner)
-        self.spinner = spinner
 
         noteTextView.layer.borderWidth = 1
         noteTextView.layer.borderColor = UIColor.separator.cgColor
         noteTextView.layer.cornerRadius = 10
+        noteTextView.backgroundColor = .secondarySystemBackground
+
+        iconImageView.tintColor = .systemBlue
+        iconImageView.preferredSymbolConfiguration = UIImage.SymbolConfiguration(pointSize: 44, weight: .semibold)
+        
+        let spinner = UIActivityIndicatorView(style: .medium)
+        spinner.hidesWhenStopped = true
+        self.spinner = spinner
+        let spinnerItem = UIBarButtonItem(customView: spinner)
+        
+        let favoriteButton = UIButton(type: .system)
+        favoriteButton.addTarget(self, action: #selector(favoriteBarTapped), for: .touchUpInside)
+        let favoriteItem = UIBarButtonItem(customView: favoriteButton)
+        self.favoriteBarButton = favoriteItem
+        
+        navigationItem.rightBarButtonItems = [favoriteItem, spinnerItem]
 
         applyCityStatic()
         loadUserData()
@@ -36,16 +64,15 @@ final class CityDetailsViewController: UIViewController, UITextViewDelegate, UIT
 
     private func applyCityStatic() {
         guard let city else {
-            cityTitleLabel.text = "City"
             title = "City"
             subtitleLabel.text = ""
             subtitleLabel.isHidden = true
             iconImageView.image = UIImage(systemName: "cloud")
+            updateFavoriteBarButton(isFavorite: false)
             return
         }
 
         let name = storage.displayTitle(for: city)
-        cityTitleLabel.text = name
         title = name
 
         let parts = [city.admin1, city.country].compactMap { $0 }.filter { !$0.isEmpty }
@@ -58,11 +85,15 @@ final class CityDetailsViewController: UIViewController, UITextViewDelegate, UIT
         guard let city else { return }
         titleTextField.text = storage.loadCustomTitle(for: city.id)
         noteTextView.text = storage.loadNote(for: city.id)
-        updateFavoriteUI(isFavorite: storage.isFavorite(city))
+        updateFavoriteBarButton(isFavorite: storage.isFavorite(city))
     }
 
-    private func updateFavoriteUI(isFavorite: Bool) {
-        favoriteButton.setTitle(isFavorite ? "Remove from Favorites" : "Add to Favorites", for: .normal)
+    private func updateFavoriteBarButton(isFavorite: Bool) {
+        guard let favoriteItem = favoriteBarButton,
+              let button = favoriteItem.customView as? UIButton else { return }
+        let image = UIImage(systemName: isFavorite ? "heart.fill" : "heart")
+        button.setImage(image, for: .normal)
+        button.tintColor = isFavorite ? .systemPink : .label
     }
 
     private func refreshForecast() {
@@ -105,33 +136,115 @@ final class CityDetailsViewController: UIViewController, UITextViewDelegate, UIT
             subtitleLabel.text = base
             subtitleLabel.isHidden = base.isEmpty
         }
+        
+        applyDailyForecast(forecast, settings: settings)
+    }
+    
+    @MainActor
+    private func applyDailyForecast(_ forecast: OpenMeteoForecastResponse, settings: WeatherSettings) {
+        forecastStackView.arrangedSubviews.forEach { v in
+            forecastStackView.removeArrangedSubview(v)
+            v.removeFromSuperview()
+        }
+
+        guard let daily = forecast.daily else { return }
+        let count = min(daily.time.count, settings.apiForecastDays)
+
+        for i in 0..<count {
+            let dateString = daily.time[i]
+            let date = dateFormatter.date(from: dateString)
+            let title: String
+            if let date {
+                if Calendar.current.isDateInToday(date) { title = "Today" }
+                else if Calendar.current.isDateInTomorrow(date) { title = "Tomorrow" }
+                else { title = weekdayFormatter.string(from: date) }
+            } else {
+                title = dateString
+            }
+
+            let maxTemp = daily.temperature2mMax?[safe: i]
+            let minTemp = daily.temperature2mMin?[safe: i]
+            let subtitle = "\(formatTemp(minTemp, unit: settings.temperatureUnit)) • \(formatTemp(maxTemp, unit: settings.temperatureUnit))"
+
+            let code = daily.weatherCode?[safe: i] ?? 3
+            let symbol = WeatherCode.iconAndText(for: code).symbol
+
+            forecastStackView.addArrangedSubview(makeForecastCard(title: title, subtitle: subtitle, symbol: symbol))
+        }
+    }
+    
+    private func makeForecastCard(title: String, subtitle: String, symbol: String) -> UIView {
+        let container = UIView()
+        container.backgroundColor = .secondarySystemGroupedBackground
+        container.layer.cornerRadius = 12
+        container.layer.masksToBounds = true
+
+        let h = UIStackView()
+        h.axis = .horizontal
+        h.alignment = .center
+        h.spacing = 12
+        h.translatesAutoresizingMaskIntoConstraints = false
+
+        let icon = UIImageView(image: UIImage(systemName: symbol))
+        icon.tintColor = .systemBlue
+        icon.contentMode = .scaleAspectFit
+        icon.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            icon.widthAnchor.constraint(equalToConstant: 28),
+            icon.heightAnchor.constraint(equalToConstant: 28)
+        ])
+
+        let v = UIStackView()
+        v.axis = .vertical
+        v.spacing = 2
+        v.alignment = .leading
+
+        let titleLabel = UILabel()
+        titleLabel.font = .preferredFont(forTextStyle: .headline)
+        titleLabel.text = title
+
+        let subLabel = UILabel()
+        subLabel.font = .preferredFont(forTextStyle: .subheadline)
+        subLabel.textColor = .secondaryLabel
+        subLabel.text = subtitle
+
+        v.addArrangedSubview(titleLabel)
+        v.addArrangedSubview(subLabel)
+
+        h.addArrangedSubview(icon)
+        h.addArrangedSubview(v)
+
+        container.addSubview(h)
+        NSLayoutConstraint.activate([
+            h.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 12),
+            h.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -12),
+            h.topAnchor.constraint(equalTo: container.topAnchor, constant: 10),
+            h.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -10),
+            container.heightAnchor.constraint(greaterThanOrEqualToConstant: 54)
+        ])
+
+        return container
+    }
+    
+    private func formatTemp(_ value: Double?, unit: TemperatureUnit) -> String {
+        guard let value else { return "—" }
+        let rounded = Int(value.rounded())
+        return unit == .celsius ? "\(rounded)°C" : "\(rounded)°F"
     }
 
-    @IBAction private func favoriteTapped(_ sender: UIButton) {
+    @objc private func favoriteBarTapped() {
         guard let city else { return }
+        guard let favoriteItem = favoriteBarButton,
+              let button = favoriteItem.customView as? UIButton else { return }
+        
         storage.toggleFavorite(city)
         let isFav = storage.isFavorite(city)
-        updateFavoriteUI(isFavorite: isFav)
-
-        UIView.animate(withDuration: 0.15, animations: {
-            sender.transform = CGAffineTransform(scaleX: 0.96, y: 0.96)
-        }, completion: { _ in
-            UIView.animate(withDuration: 0.15) { sender.transform = .identity }
-        })
-    }
-
-    @IBAction private func saveTapped(_ sender: UIButton) {
-        guard let city else { return }
-        view.endEditing(true)
-        storage.saveNote(noteTextView.text ?? "", for: city.id)
-        storage.saveCustomTitle(titleTextField.text ?? "", for: city.id)
-        storage.saveSelectedCity(city)
-
-        UIView.animate(withDuration: 0.2, animations: {
-            sender.alpha = 0.6
-        }, completion: { _ in
-            UIView.animate(withDuration: 0.2) { sender.alpha = 1 }
-        })
+        
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        
+        UIView.transition(with: button, duration: 0.2, options: .transitionCrossDissolve, animations: {
+            self.updateFavoriteBarButton(isFavorite: isFav)
+        }, completion: nil)
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
@@ -150,5 +263,12 @@ final class CityDetailsViewController: UIViewController, UITextViewDelegate, UIT
         let alert = UIAlertController(title: "Network error", message: error.localizedDescription, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
+    }
+}
+
+private extension Array {
+    subscript(safe index: Int) -> Element? {
+        guard indices.contains(index) else { return nil }
+        return self[index]
     }
 }

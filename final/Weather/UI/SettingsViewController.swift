@@ -12,6 +12,11 @@ final class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Settings"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .always
+
+        view.backgroundColor = .systemGroupedBackground
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(resetTapped))
         loadFromStorage()
     }
 
@@ -63,5 +68,11 @@ final class SettingsViewController: UIViewController {
 
     @IBAction private func daysChanged(_ sender: UISlider) {
         save()
+    }
+
+    @objc private func resetTapped() {
+        storage.saveSettings(.default)
+        loadFromStorage()
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
     }
 }

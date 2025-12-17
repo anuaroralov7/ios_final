@@ -127,6 +127,3 @@ final class OpenMeteoAPI {
         }
     }
 }
-
-
-

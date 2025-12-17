@@ -27,5 +27,3 @@ struct OpenMeteoGeocodingResponse: Codable, Sendable {
         }
     }
 }
-
-

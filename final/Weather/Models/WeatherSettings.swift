@@ -25,4 +25,3 @@ enum WindSpeedUnit: String, Codable, CaseIterable, Sendable {
     case mph
     case kn
 }
-

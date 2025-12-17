@@ -17,5 +17,3 @@ enum WeatherCode {
         }
     }
 }
-
-
