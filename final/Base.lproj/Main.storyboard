@@ -103,9 +103,58 @@
                     <view key="view" contentMode="scaleToFill" id="VIEW-TODAY">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="SV-TODAY">
+                                <rect key="frame" x="16" y="75" width="361" height="337"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Select a city" textAlignment="natural" lineBreakMode="tailTruncation" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LBL-TODAY-CITY">
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="26"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView clipsSubviews="YES" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="IMG-TODAY-ICON">
+                                        <rect key="frame" x="0.0" y="45.666666666666664" width="361" height="120"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="120" id="TODAY-ICON-H"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="—" textAlignment="natural" lineBreakMode="tailTruncation" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LBL-TODAY-TEMP">
+                                        <fontDescription key="fontDescription" type="system" weight="bold" pointSize="44"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="" textAlignment="natural" numberOfLines="0" lineBreakMode="wordWrap" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LBL-TODAY-DETAILS">
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" systemColor="secondaryLabelColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" configuration="tinted" translatesAutoresizingMaskIntoConstraints="NO" id="BTN-TODAY-REFRESH">
+                                        <rect key="frame" x="0.0" y="291" width="361" height="34"/>
+                                        <state key="normal" title="Refresh"/>
+                                        <connections>
+                                            <action selector="refreshTapped:" destination="VC-TODAY" eventType="touchUpInside" id="ACT-TODAY-REFRESH"/>
+                                        </connections>
+                                    </button>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SPN-TODAY">
+                                        <rect key="frame" x="170.66666666666666" y="337" width="20" height="20"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="SAFE-TODAY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="SV-TODAY" firstAttribute="leading" secondItem="SAFE-TODAY" secondAttribute="leading" constant="16" id="TODAY-L"/>
+                            <constraint firstItem="SAFE-TODAY" firstAttribute="trailing" secondItem="SV-TODAY" secondAttribute="trailing" constant="16" id="TODAY-R"/>
+                            <constraint firstItem="SV-TODAY" firstAttribute="top" secondItem="SAFE-TODAY" secondAttribute="top" constant="16" id="TODAY-T"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="activityIndicator" destination="SPN-TODAY" id="OUT-TODAY-SPN"/>
+                        <outlet property="cityLabel" destination="LBL-TODAY-CITY" id="OUT-TODAY-CITY"/>
+                        <outlet property="detailsLabel" destination="LBL-TODAY-DETAILS" id="OUT-TODAY-DETAILS"/>
+                        <outlet property="iconImageView" destination="IMG-TODAY-ICON" id="OUT-TODAY-ICON"/>
+                        <outlet property="refreshButton" destination="BTN-TODAY-REFRESH" id="OUT-TODAY-REFRESH"/>
+                        <outlet property="tempLabel" destination="LBL-TODAY-TEMP" id="OUT-TODAY-TEMP"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FR-VC-TODAY" sceneMemberID="firstResponder"/>
             </objects>
@@ -219,23 +268,30 @@
                                     <rect key="frame" x="0.0" y="0.0" width="393" height="51"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="j32-aC-pQ1">
-                                            <rect key="frame" x="0.0" y="3" width="393" height="44"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="l4d-uF-Hby">
-                                            <rect key="frame" x="0.0" y="3" width="393" height="44"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="FC-SV">
+                                            <rect key="frame" x="16" y="8" width="361" height="35"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="City" textAlignment="natural" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j32-aC-pQ1">
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Region, Country" textAlignment="natural" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l4d-uF-Hby">
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </stackView>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="FC-SV" firstAttribute="leading" secondItem="RbA-JH-f5Y" secondAttribute="leading" constant="16" id="FC-L"/>
+                                        <constraint firstAttribute="trailing" secondItem="FC-SV" secondAttribute="trailing" constant="16" id="FC-R"/>
+                                        <constraint firstItem="FC-SV" firstAttribute="top" secondItem="RbA-JH-f5Y" secondAttribute="top" constant="8" id="FC-T"/>
+                                        <constraint firstAttribute="bottom" secondItem="FC-SV" secondAttribute="bottom" constant="8" id="FC-B"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <segue destination="VC-CITY-DETAILS" kind="show" identifier="ShowCityDetails" id="SEG-FC-DETAILS"/>
                                     <outlet property="subtitleLabel" destination="l4d-uF-Hby" id="m30-Y5-QIW"/>
                                     <outlet property="titleLabel" destination="j32-aC-pQ1" id="uGt-VD-bOl"/>
                                 </connections>
@@ -251,14 +307,49 @@
         <!--Favorites View Controller-->
         <scene sceneID="SCENE-VC-FAVORITES">
             <objects>
-                <viewController id="VC-FAVORITES" customClass="FavoritesViewController" customModule="final" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="VIEW-FAVORITES">
+                <tableViewController id="VC-FAVORITES" customClass="FavoritesViewController" customModule="final" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" id="TV-FAVORITES">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="SAFE-FAVORITES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                </viewController>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CityCell" id="CELL-FAV-CITY" customClass="CityTableViewCell" customModule="final" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="50" width="393" height="51"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="CELL-FAV-CITY" id="FAV-CONTENT">
+                                    <rect key="frame" x="0.0" y="0.0" width="393" height="51"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="FAV-SV">
+                                            <rect key="frame" x="16" y="8" width="361" height="35"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="City" textAlignment="natural" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FAV-TITLE">
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Region, Country" textAlignment="natural" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FAV-SUB">
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                </label>
+                                            </subviews>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="FAV-SV" firstAttribute="leading" secondItem="FAV-CONTENT" secondAttribute="leading" constant="16" id="FAV-L"/>
+                                        <constraint firstAttribute="trailing" secondItem="FAV-SV" secondAttribute="trailing" constant="16" id="FAV-R"/>
+                                        <constraint firstItem="FAV-SV" firstAttribute="top" secondItem="FAV-CONTENT" secondAttribute="top" constant="8" id="FAV-T"/>
+                                        <constraint firstAttribute="bottom" secondItem="FAV-SV" secondAttribute="bottom" constant="8" id="FAV-B"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="VC-CITY-DETAILS" kind="show" identifier="ShowCityDetails" id="SEG-FAV-DETAILS"/>
+                                    <outlet property="titleLabel" destination="FAV-TITLE" id="OUT-FAV-TITLE"/>
+                                    <outlet property="subtitleLabel" destination="FAV-SUB" id="OUT-FAV-SUB"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="NAV-FAV-ITEM"/>
+                </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FR-VC-FAVORITES" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-915" y="751"/>
@@ -270,9 +361,87 @@
                     <view key="view" contentMode="scaleToFill" id="VIEW-SETTINGS">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SCROLL-SET">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="SV-SET">
+                                        <rect key="frame" x="16" y="16" width="361" height="324"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Temperature" textAlignment="natural" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LBL-SET-TEMP">
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                            </label>
+                                            <segmentedControl opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SEG-TEMP">
+                                                <segments>
+                                                    <segment title="°C"/>
+                                                    <segment title="°F"/>
+                                                </segments>
+                                                <connections>
+                                                    <action selector="temperatureChanged:" destination="VC-SETTINGS" eventType="valueChanged" id="ACT-SEG-TEMP"/>
+                                                </connections>
+                                            </segmentedControl>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Wind unit" textAlignment="natural" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LBL-SET-WIND">
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                            </label>
+                                            <segmentedControl opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SEG-WIND">
+                                                <segments>
+                                                    <segment title="km/h"/>
+                                                    <segment title="m/s"/>
+                                                    <segment title="mph"/>
+                                                    <segment title="kn"/>
+                                                </segments>
+                                                <connections>
+                                                    <action selector="windChanged:" destination="VC-SETTINGS" eventType="valueChanged" id="ACT-SEG-WIND"/>
+                                                </connections>
+                                            </segmentedControl>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="horizontal" distribution="fill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="SV-SWITCH">
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Show wind" textAlignment="natural" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LBL-SHOW-WIND">
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    </label>
+                                                    <switch opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SW-SHOW-WIND">
+                                                        <connections>
+                                                            <action selector="showWindChanged:" destination="VC-SETTINGS" eventType="valueChanged" id="ACT-SW-WIND"/>
+                                                        </connections>
+                                                    </switch>
+                                                </subviews>
+                                            </stackView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Forecast days: 7" textAlignment="natural" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LBL-DAYS">
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            </label>
+                                            <slider opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SL-DAYS">
+                                                <connections>
+                                                    <action selector="daysChanged:" destination="VC-SETTINGS" eventType="valueChanged" id="ACT-SL-DAYS"/>
+                                                </connections>
+                                            </slider>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="SV-SET" firstAttribute="leading" secondItem="SCROLL-SET" secondAttribute="leading" constant="16" id="SET-L"/>
+                                    <constraint firstAttribute="trailing" secondItem="SV-SET" secondAttribute="trailing" constant="16" id="SET-R"/>
+                                    <constraint firstItem="SV-SET" firstAttribute="top" secondItem="SCROLL-SET" secondAttribute="top" constant="16" id="SET-T"/>
+                                    <constraint firstAttribute="bottom" secondItem="SV-SET" secondAttribute="bottom" constant="16" id="SET-B"/>
+                                    <constraint firstItem="SV-SET" firstAttribute="width" secondItem="SCROLL-SET" secondAttribute="width" constant="-32" id="SET-W"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="SAFE-SETTINGS"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="SCROLL-SET" firstAttribute="leading" secondItem="VIEW-SETTINGS" secondAttribute="leading" id="SET-ROOT-L"/>
+                            <constraint firstAttribute="trailing" secondItem="SCROLL-SET" secondAttribute="trailing" id="SET-ROOT-R"/>
+                            <constraint firstItem="SCROLL-SET" firstAttribute="top" secondItem="VIEW-SETTINGS" secondAttribute="top" id="SET-ROOT-T"/>
+                            <constraint firstAttribute="bottom" secondItem="SCROLL-SET" secondAttribute="bottom" id="SET-ROOT-B"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="daysLabel" destination="LBL-DAYS" id="OUT-SET-DAYS-LBL"/>
+                        <outlet property="daysSlider" destination="SL-DAYS" id="OUT-SET-DAYS-SL"/>
+                        <outlet property="showWindSwitch" destination="SW-SHOW-WIND" id="OUT-SET-SW"/>
+                        <outlet property="temperatureSegmented" destination="SEG-TEMP" id="OUT-SET-TEMP"/>
+                        <outlet property="windSegmented" destination="SEG-WIND" id="OUT-SET-WIND"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FR-VC-SETTINGS" sceneMemberID="firstResponder"/>
             </objects>

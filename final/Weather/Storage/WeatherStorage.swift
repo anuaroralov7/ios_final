@@ -1,10 +1,3 @@
-//
-//  WeatherStorage.swift
-//  final
-//
-//  Created by Baisal Kenesbek on 17.12.2025.
-//
-
 import Foundation
 
 final class WeatherStorage {
@@ -20,6 +13,8 @@ final class WeatherStorage {
         static let favorites = "weather.favorites.cities.v1"
         static let settings = "weather.settings.v1"
         static let notes = "weather.notes.v1"
+        static let selectedCity = "weather.selected.city.v1"
+        static let customTitles = "weather.customTitles.v1"
     }
 
     func loadFavorites() -> [City] {
@@ -65,5 +60,35 @@ final class WeatherStorage {
         var notes = defaults.dictionary(forKey: Keys.notes) as? [String: String] ?? [:]
         notes[cityID] = note
         defaults.set(notes, forKey: Keys.notes)
+    }
+
+    func loadSelectedCity() -> City? {
+        guard let data = defaults.data(forKey: Keys.selectedCity) else { return nil }
+        return try? decoder.decode(City.self, from: data)
+    }
+
+    func saveSelectedCity(_ city: City?) {
+        guard let city else {
+            defaults.removeObject(forKey: Keys.selectedCity)
+            return
+        }
+        guard let data = try? encoder.encode(city) else { return }
+        defaults.set(data, forKey: Keys.selectedCity)
+    }
+
+    func loadCustomTitle(for cityID: String) -> String {
+        let titles = defaults.dictionary(forKey: Keys.customTitles) as? [String: String] ?? [:]
+        return titles[cityID] ?? ""
+    }
+
+    func saveCustomTitle(_ title: String, for cityID: String) {
+        var titles = defaults.dictionary(forKey: Keys.customTitles) as? [String: String] ?? [:]
+        titles[cityID] = title
+        defaults.set(titles, forKey: Keys.customTitles)
+    }
+
+    func displayTitle(for city: City) -> String {
+        let custom = loadCustomTitle(for: city.id).trimmingCharacters(in: .whitespacesAndNewlines)
+        return custom.isEmpty ? city.name : custom
     }
 }
