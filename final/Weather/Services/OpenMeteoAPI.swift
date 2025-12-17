@@ -64,6 +64,45 @@ final class OpenMeteoAPI {
             )
         }
     }
+    func fetchForecast(latitude: Double, longitude: Double, temperatureUnit: String = "celsius", windSpeedUnit: String = "kmh") async throws -> OpenMeteoForecastResponse {
+            var components = URLComponents()
+            components.scheme = WeatherAppConfig.forecastBaseURL.scheme
+            components.host = WeatherAppConfig.forecastBaseURL.host
+            components.path = "/v1/forecast"
+            components.queryItems = [
+                URLQueryItem(name: "latitude", value: String(latitude)),
+                URLQueryItem(name: "longitude", value: String(longitude)),
+                URLQueryItem(name: "timezone", value: "auto"),
+                URLQueryItem(name: "temperature_unit", value: temperatureUnit),
+                URLQueryItem(name: "wind_speed_unit", value: windSpeedUnit),
+                URLQueryItem(name: "current", value: "temperature_2m,weather_code,wind_speed_10m"),
+                URLQueryItem(name: "hourly", value: "temperature_2m,weather_code"),
+                URLQueryItem(name: "daily", value: "temperature_2m_max,temperature_2m_min,weather_code")
+            ]
+
+            guard let url = components.url else { throw APIError.invalidURL }
+
+            let data: Data
+            let response: URLResponse
+            do {
+                (data, response) = try await session.data(from: url)
+            } catch {
+                throw APIError.transport(error)
+            }
+
+            guard let http = response as? HTTPURLResponse else {
+                throw APIError.invalidResponse
+            }
+            guard (200...299).contains(http.statusCode) else {
+                throw APIError.httpStatus(http.statusCode)
+            }
+
+            do {
+                return try JSONDecoder().decode(OpenMeteoForecastResponse.self, from: data)
+            } catch {
+                throw APIError.decoding(error)
+            }
+        }
 }
 
 
