@@ -1,9 +1,3 @@
-//
-//  WeatherSettings.swift
-//  final
-//
-//  Created by Baisal Kenesbek on 17.12.2025.
-//
 import Foundation
 
 struct WeatherSettings: Codable, Equatable, Sendable {

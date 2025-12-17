@@ -1,10 +1,3 @@
-//
-//  WeatherStorageTest.swift
-//  final
-//
-//  Created by Baisal Kenesbek on 17.12.2025.
-//
-
 import XCTest
 @testable import final
 
