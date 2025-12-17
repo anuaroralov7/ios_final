@@ -1,10 +1,3 @@
-//
-//  AppDelegate.swift
-//  final
-//
-//  Created by Anuar Oralov on 15.12.2025.
-//
-
 import UIKit
 
 @main
