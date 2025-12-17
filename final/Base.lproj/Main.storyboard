@@ -1,24 +1,290 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24128" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="TAB-ROOT">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="tne-QT-ifu">
+        <!--Tab Bar Controller-->
+        <scene sceneID="SCENE-TAB">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                <tabBarController id="TAB-ROOT" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="TAB-BAR">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="NAV-TODAY" kind="relationship" relationship="viewControllers" id="SEG-TODAY"/>
+                        <segue destination="NAV-FORECAST" kind="relationship" relationship="viewControllers" id="SEG-FORECAST"/>
+                        <segue destination="NAV-FAVORITES" kind="relationship" relationship="viewControllers" id="SEG-FAVORITES"/>
+                        <segue destination="NAV-SETTINGS" kind="relationship" relationship="viewControllers" id="SEG-SETTINGS"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FR-TAB" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-454" y="-839"/>
+        </scene>
+        <!--Today-->
+        <scene sceneID="SCENE-NAV-TODAY">
+            <objects>
+                <navigationController id="NAV-TODAY" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Today" id="TBI-TODAY"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="NB-TODAY">
+                        <rect key="frame" x="0.0" y="118" width="393" height="54"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="VC-TODAY" kind="relationship" relationship="rootViewController" id="ROOT-TODAY"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FR-NAV-TODAY" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-27" y="-13"/>
+        </scene>
+        <!--Forecast-->
+        <scene sceneID="SCENE-NAV-FORECAST">
+            <objects>
+                <navigationController id="NAV-FORECAST" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Forecast" id="TBI-FORECAST"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="NB-FORECAST">
+                        <rect key="frame" x="0.0" y="118" width="393" height="54"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="CHY-Om-7TU" kind="relationship" relationship="rootViewController" id="6Il-Km-cV3"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FR-NAV-FORECAST" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1909" y="-13"/>
+        </scene>
+        <!--Favorites-->
+        <scene sceneID="SCENE-NAV-FAVORITES">
+            <objects>
+                <navigationController id="NAV-FAVORITES" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Favorites" id="TBI-FAVORITES"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="NB-FAVORITES">
+                        <rect key="frame" x="0.0" y="118" width="393" height="54"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="VC-FAVORITES" kind="relationship" relationship="rootViewController" id="ROOT-FAVORITES"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FR-NAV-FAVORITES" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-914" y="-13"/>
+        </scene>
+        <!--Settings-->
+        <scene sceneID="SCENE-NAV-SETTINGS">
+            <objects>
+                <navigationController id="NAV-SETTINGS" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Settings" id="TBI-SETTINGS"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="NB-SETTINGS">
+                        <rect key="frame" x="0.0" y="118" width="393" height="54"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="VC-SETTINGS" kind="relationship" relationship="rootViewController" id="ROOT-SETTINGS"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FR-NAV-SETTINGS" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1021" y="-13"/>
+        </scene>
+        <!--Today View Controller-->
+        <scene sceneID="SCENE-VC-TODAY">
+            <objects>
+                <viewController id="VC-TODAY" customClass="TodayViewController" customModule="final" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="VIEW-TODAY">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <viewLayoutGuide key="safeArea" id="SAFE-TODAY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FR-VC-TODAY" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="-28" y="751"/>
+        </scene>
+        <!--City Details View Controller-->
+        <scene sceneID="SCENE-VC-CITY-DETAILS">
+            <objects>
+                <viewController id="VC-CITY-DETAILS" customClass="CityDetailsViewController" customModule="final" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="VIEW-CITY-DETAILS">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SV-SCROLL">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="SV-ROOT">
+                                        <rect key="frame" x="16" y="16" width="361" height="465.66666666666669"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="City" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LBL-CITY-TITLE">
+                                                <rect key="frame" x="0.0" y="0.0" width="361" height="33.666666666666664"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="28"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Region, Country" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LBL-CITY-SUBTITLE">
+                                                <rect key="frame" x="0.0" y="45.666666666666664" width="361" height="18"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <imageView clipsSubviews="YES" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="IMG-ICON">
+                                                <rect key="frame" x="0.0" y="75.666666666666686" width="361" height="120"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="120" id="IMG-H"/>
+                                                </constraints>
+                                            </imageView>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Custom title" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="TF-TITLE">
+                                                <rect key="frame" x="0.0" y="207.66666666666666" width="361" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <textView clipsSubviews="YES" contentMode="scaleToFill" text="Note" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="TV-NOTE">
+                                                <rect key="frame" x="0.0" y="253.66666666666669" width="361" height="120"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="120" id="TV-H"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BTN-FAV">
+                                                <rect key="frame" x="0.0" y="385.66666666666669" width="361" height="34"/>
+                                                <state key="normal" title="Add to Favorites"/>
+                                                <connections>
+                                                    <action selector="favoriteTapped:" destination="VC-CITY-DETAILS" eventType="touchUpInside" id="ACT-FAV"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BTN-SAVE">
+                                                <rect key="frame" x="0.0" y="431.66666666666669" width="361" height="34"/>
+                                                <state key="normal" title="Save"/>
+                                                <connections>
+                                                    <action selector="saveTapped:" destination="VC-CITY-DETAILS" eventType="touchUpInside" id="ACT-SAVE"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="SV-ROOT" secondAttribute="bottom" constant="16" id="SCR-B"/>
+                                    <constraint firstItem="SV-ROOT" firstAttribute="leading" secondItem="SV-SCROLL" secondAttribute="leading" constant="16" id="SCR-L"/>
+                                    <constraint firstAttribute="trailing" secondItem="SV-ROOT" secondAttribute="trailing" constant="16" id="SCR-R"/>
+                                    <constraint firstItem="SV-ROOT" firstAttribute="top" secondItem="SV-SCROLL" secondAttribute="top" constant="16" id="SCR-T"/>
+                                    <constraint firstItem="SV-ROOT" firstAttribute="width" secondItem="SV-SCROLL" secondAttribute="width" constant="-32" id="SCR-W"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="SAFE-CITY-DETAILS"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="SV-SCROLL" secondAttribute="bottom" id="ROOT-B"/>
+                            <constraint firstItem="SV-SCROLL" firstAttribute="leading" secondItem="VIEW-CITY-DETAILS" secondAttribute="leading" id="ROOT-L"/>
+                            <constraint firstAttribute="trailing" secondItem="SV-SCROLL" secondAttribute="trailing" id="ROOT-R"/>
+                            <constraint firstItem="SV-SCROLL" firstAttribute="top" secondItem="VIEW-CITY-DETAILS" secondAttribute="top" id="ROOT-T"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="cityTitleLabel" destination="LBL-CITY-TITLE" id="OUT-CITY-TITLE"/>
+                        <outlet property="favoriteButton" destination="BTN-FAV" id="OUT-FAV"/>
+                        <outlet property="iconImageView" destination="IMG-ICON" id="OUT-ICON"/>
+                        <outlet property="noteTextView" destination="TV-NOTE" id="OUT-TV"/>
+                        <outlet property="subtitleLabel" destination="LBL-CITY-SUBTITLE" id="OUT-CITY-SUBTITLE"/>
+                        <outlet property="titleTextField" destination="TF-TITLE" id="OUT-TF"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FR-VC-CITY-DETAILS" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1839" y="556"/>
+        </scene>
+        <!--Forecast View Controller-->
+        <scene sceneID="vj3-Zf-G2y">
+            <objects>
+                <tableViewController id="CHY-Om-7TU" customClass="ForecastViewController" customModule="final" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="mXL-ct-eDC">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CityCell" id="ZTj-6X-8S3" customClass="CityTableViewCell" customModule="final" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="50" width="393" height="51"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ZTj-6X-8S3" id="RbA-JH-f5Y">
+                                    <rect key="frame" x="0.0" y="0.0" width="393" height="51"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="j32-aC-pQ1">
+                                            <rect key="frame" x="0.0" y="3" width="393" height="44"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="l4d-uF-Hby">
+                                            <rect key="frame" x="0.0" y="3" width="393" height="44"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="subtitleLabel" destination="l4d-uF-Hby" id="m30-Y5-QIW"/>
+                                    <outlet property="titleLabel" destination="j32-aC-pQ1" id="uGt-VD-bOl"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="xww-bb-Ayw"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zy0-q0-VJf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1909" y="739"/>
+        </scene>
+        <!--Favorites View Controller-->
+        <scene sceneID="SCENE-VC-FAVORITES">
+            <objects>
+                <viewController id="VC-FAVORITES" customClass="FavoritesViewController" customModule="final" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="VIEW-FAVORITES">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="SAFE-FAVORITES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FR-VC-FAVORITES" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-915" y="751"/>
+        </scene>
+        <!--Settings View Controller-->
+        <scene sceneID="SCENE-VC-SETTINGS">
+            <objects>
+                <viewController id="VC-SETTINGS" customClass="SettingsViewController" customModule="final" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="VIEW-SETTINGS">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="SAFE-SETTINGS"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FR-VC-SETTINGS" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1021" y="751"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
